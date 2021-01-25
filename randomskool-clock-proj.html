@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    <title>Clock</title>
+</head>
+<body>
+    <style>
+        table {
+            margin: auto;
+        }
+    </style>
+    <div class="container">
+        <div class="jumbotron">
+            <h2>Welcome to Randomskool Clock!</h2>
+            <h2>Real Time Clock Service 🕒</h2>
+            <h2>The time is: <br><span id="clock"></span></h2>
+            <table>
+            <tr>
+                <td><button id="ukt" class="btn btn-primary" value="Europe/London" >Convert to UKT</button></td>
+                <td><h3 style="padding-bottom: 10px;padding-left: 10px;" id="ukt_zone">Hello</h3></td>
+            </tr>
+            <tr>
+                <td><button id="ust" class="btn btn-primary" value="America/New_York" >Convert to UST</button></td>
+                <td><h3 style="padding-bottom: 10px;padding-left: 10px;" id="ust_zone">Hello</h3></td>
+            </tr>
+            <tr align="center">
+                <td><button onclick="cleared()" class="btn btn-danger">Clear</button></td>
+            </tr>
+            </table>
+        </div>
+        
+    </div>
+    
+    <script>
+        setInterval(() => {
+            let a = new Date;
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+            let time = a.getHours() + ":" + 
+                    String(a.getMinutes()).padStart(2, "0") + 
+                    ":" + String(a.getSeconds()).padStart(2, "0") + 
+                    " on " + a.toLocaleDateString('en-US', options);
+            document.getElementById("clock").innerHTML = time
+        }, 1000);
+
+        function convert_date(zone_val) {
+            let zone_date = new Date().toLocaleString('en-US', { timeZone: zone_val });
+            let con_date = new Date(zone_date);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+            let lat_date = con_date.getHours() + ":" + 
+             String(con_date.getMinutes()).padStart(2, "0") + 
+             ":" + String(con_date.getSeconds()).padStart(2, "0") + " " + con_date.toLocaleDateString('en-US', options);
+             return lat_date;
+        }
+        uk_btn = document.getElementById("ukt");
+        uk_zone = document.getElementById("ukt_zone");
+        uk_btn.addEventListener("click", function()
+        {
+            uk_zone.innerHTML = convert_date(uk_btn.value)
+        })
+        us_btn = document.getElementById("ust");
+        us_zone = document.getElementById("ust_zone");
+        us_btn.addEventListener("click", function()
+        {
+            us_zone.innerHTML = convert_date(us_btn.value)
+        })
+        function cleared() {
+            uk_zone.innerHTML = "<h3></h3>";
+            us_zone.innerHTML = "<h3></h3>";            
+        }
+
+        
+    </script>
+</body>
+</html>
